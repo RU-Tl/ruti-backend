@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/healthcheck")
 public class HealthCheckController {
 
-    @GetMapping("")
+    @GetMapping("/health")
     public ResponseEntity<String> healthCheck() {
         log.info("admin test success!");
         return ResponseEntity.ok().body("OK");
