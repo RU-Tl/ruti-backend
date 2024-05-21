@@ -1,5 +1,6 @@
 package com.toj.api.healthcheck;
 
+import com.toj.global.model.ApiResponse;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +13,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/healthcheck")
 public class HealthCheckController {
-
+    /**
+     * {
+     *     "httpStatus": "OK",
+     *     "message": "OK",
+     *     "data": "admin test success!"
+     * }
+     */
     @GetMapping("/health")
-    public ResponseEntity<String> healthCheck() {
+    public ApiResponse<String> healthCheck() {
         log.info("admin test success!");
-        return ResponseEntity.ok().body("OK");
+        return ApiResponse.success("admin test success!");
+
     }
 
 }
+
+
