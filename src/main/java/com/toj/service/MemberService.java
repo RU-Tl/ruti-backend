@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,9 +34,13 @@ public class MemberService {
     }
 
     private Member createMember(UserLoginDto userLoginDto) {
-        Member member = new Member(userLoginDto.getName(), userLoginDto.getEmail());
+        Member member = new Member(userLoginDto.getName(), userLoginDto.getEmail(), makeNickName());
         memberRepository.save(member);
 
         return member;
+    }
+
+    private String makeNickName() {
+        return "RoutineMaster" + LocalDateTime.now();
     }
 }

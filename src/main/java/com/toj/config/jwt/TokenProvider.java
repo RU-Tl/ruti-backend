@@ -1,6 +1,5 @@
 package com.toj.config.jwt;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -11,8 +10,7 @@ import java.util.Date;
 
 @Component
 public class TokenProvider {
-    private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private final static long expiredAt = 365 * 24 * 60 * 60 * 1000L; // 1년
 
     public String generateToken(String email) {

@@ -22,8 +22,9 @@ public class Member {
     private String grade;
 
 
-    public Member (String email, String name) {
+    public Member (String email, String name, String nickname) {
         this.email = email;
         this.name = name;
+        this.nickname = nickname;
     }
 }
