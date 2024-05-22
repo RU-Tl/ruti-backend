@@ -33,7 +33,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
 
-    //spring-doc
+    //spring-doc (swagger)
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
 
@@ -42,7 +42,11 @@ dependencies {
     testImplementation 'org.projectlombok:lombok'
 
     // JWT
-    implementation 'io.jsonwebtoken:jjwt:0.12.3'
+//    implementation 'io.jsonwebtoken:jjwt:0.12.3'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
     // xml문서와 java객체 간 매핑 자동화
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'com.auth0:java-jwt:4.4.0'
