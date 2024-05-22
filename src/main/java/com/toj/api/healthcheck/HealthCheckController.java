@@ -20,7 +20,7 @@ public class HealthCheckController {
      *     "data": "admin test success!"
      * }
      */
-    @GetMapping("/health")
+    @GetMapping("")
     public ApiResponse<String> healthCheck() {
         log.info("admin test success!");
         return ApiResponse.success("admin test success!");
