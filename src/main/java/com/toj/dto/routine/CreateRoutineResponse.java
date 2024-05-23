@@ -9,7 +9,4 @@ public class CreateRoutineResponse {
 
     private Long routineId;
 
-    public static CreateRoutineResponse of(Long routineId) {
-        return new CreateRoutineResponse(routineId);
-    }
 }

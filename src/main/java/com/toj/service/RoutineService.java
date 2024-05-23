@@ -2,29 +2,51 @@ package com.toj.service;
 
 import com.toj.dto.routine.CreateRoutineRequest;
 import com.toj.dto.routine.CreateRoutineResponse;
+import com.toj.dto.routine.GetAllRoutineResponse;
+import com.toj.entity.Daily;
+import com.toj.entity.DailyCate;
 import com.toj.entity.Member;
 import com.toj.entity.Routine;
-import com.toj.exception.NotFoundException;
-import com.toj.global.code.ErrorCode;
-import com.toj.repository.MemberRepository;
-import com.toj.repository.RoutineRepository;
+import com.toj.repository.DailyRepository;
+import com.toj.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class RoutineService {
-    private final RoutineRepository routineRepository;
-    private final MemberRepository memberRepository;
+    private final RecordRepository recordRepository;
+    private final DailyRepository dailyRepository;
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private Long createRoutine(CreateRoutineRequest request, Long memberId) {
-        Member findMember = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.));
+    public Long createRoutine(CreateRoutineRequest request, Member findMember) {
+        Routine routine = new Routine(findMember, request.getContent(), request.getCategories(), request.getStartDate(), request.getEndDate(), request.getAlarmTime());
+        recordRepository.save(routine);
+        return routine.getId();
+    }
 
-        return CreateRoutineResponse.of();
+    public List<GetAllRoutineResponse> findAllByMemberId(Long memberId, String selectedDate) {
+        List<GetAllRoutineResponse> result = new ArrayList<>();
+//        List<Routine> routineList = recordRepository.findAllByMemberId(memberId).stream()
+//                .filter(routine -> routine.getEndDate().isAfter(LocalDate.parse(selectedDate, dateFormatter).atTime(LocalTime.MIDNIGHT)))
+//                .collect(Collectors.toList());
+
+//        for (Routine routine : routineList) {
+//            Daily res = dailyRepository.findById(routine.getId())
+//                    .filter(daily -> daily.getStatus().equals(DailyCate.SUCCESS))
+//                    .map(daily -> daily.ge);
+//        }
+
+        return result;
     }
 }

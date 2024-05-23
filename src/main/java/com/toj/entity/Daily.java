@@ -18,7 +18,7 @@ public class Daily extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "record_id")
-    private Record record;
+    private Routine routine;
 
     @Enumerated(EnumType.STRING)
     private DailyCate dailyCate;

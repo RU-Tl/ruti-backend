@@ -12,4 +12,5 @@ public class CreateRoutineRequest {
     private String content;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private String alarmTime;
 }
