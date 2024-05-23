@@ -1,7 +1,7 @@
 package com.toj.service;
 
 import com.toj.config.jwt.TokenProvider;
-import com.toj.dto.UserLoginDto;
+import com.toj.dto.member.UserLoginDto;
 import com.toj.entity.Member;
 import com.toj.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

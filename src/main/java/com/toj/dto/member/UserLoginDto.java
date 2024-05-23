@@ -1,4 +1,4 @@
-package com.toj.dto;
+package com.toj.dto.member;
 
 import lombok.Data;
 
