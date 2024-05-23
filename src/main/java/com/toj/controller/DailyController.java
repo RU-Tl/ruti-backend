@@ -1,6 +1,7 @@
 package com.toj.controller;
 
 import com.toj.dto.daily.GetDetailDailyResponse;
+import com.toj.dto.daily.GetWeeklyScoreResponse;
 import com.toj.global.model.ApiResponse;
 import com.toj.service.DailyService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +34,7 @@ public class DailyController {
                 dailyService.getDetailDaily(memberId,routineId));
     }
 
-    /*@Operation(
+    @Operation(
             summary = "루틴 주간 스코어 합산 API",
             description = "루틴 상세 조회 페이지에서 주간 스코어 합산을 합니다."
     )
@@ -44,7 +45,7 @@ public class DailyController {
 
         return ApiResponse.success(
                 dailyService.getWeeklyScore(memberId, routineId));
-    }*/
+    }
 
 
 }
