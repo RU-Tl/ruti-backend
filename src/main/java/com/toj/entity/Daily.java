@@ -17,7 +17,7 @@ public class Daily extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "record_id")
+    @JoinColumn(name = "routine_id")
     private Routine routine;
 
     @Enumerated(EnumType.STRING)

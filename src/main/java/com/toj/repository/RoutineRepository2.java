@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface RecordRepository extends JpaRepository<Routine, Long> {
+public interface RoutineRepository extends JpaRepository<Routine, Long> {
 
     List<Routine> findAllByMemberId(Long memberId);
 }
