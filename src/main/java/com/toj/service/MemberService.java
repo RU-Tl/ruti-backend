@@ -1,8 +1,9 @@
 package com.toj.service;
 
 import com.toj.config.jwt.TokenProvider;
-import com.toj.dto.UserLoginDto;
+import com.toj.dto.member.UserLoginDto;
 import com.toj.entity.Member;
+import com.toj.exception.NotFoundException;
 import com.toj.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,5 +43,10 @@ public class MemberService {
 
     private String makeNickName() {
         return "RoutineMaster" + LocalDateTime.now();
+    }
+
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않은 회원."));
     }
 }

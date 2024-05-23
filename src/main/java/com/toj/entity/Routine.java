@@ -1,19 +1,18 @@
 package com.toj.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Record {
+@AllArgsConstructor
+public class Routine {
 
     @Id
-    @Column(name = "record_id")
+    @Column(name = "routine_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -22,7 +21,7 @@ public class Record {
     private Member member;
 
     @Enumerated(EnumType.STRING)
-    private RecordCate recordCate;
+    private RoutineCate routineCate;
 
     private String content;
 
@@ -32,4 +31,12 @@ public class Record {
 
     private String alarmTime;
 
+    public Routine(Member member, String content, String categories, LocalDateTime startDate, LocalDateTime endDate, String alarmTime) {
+        this.member = member;
+        this.content = content;
+        this.routineCate = RoutineCate.valueOf(categories);
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.alarmTime = alarmTime;
+    }
 }
