@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Routine {
 
     @Id
-    @Column(name = "record_id")
+    @Column(name = "routine_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -21,7 +21,7 @@ public class Routine {
     private Member member;
 
     @Enumerated(EnumType.STRING)
-    private RecordCate recordCate;
+    private RoutineCate routineCate;
 
     private String content;
 
@@ -34,7 +34,7 @@ public class Routine {
     public Routine(Member member, String content, String categories, LocalDateTime startDate, LocalDateTime endDate, String alarmTime) {
         this.member = member;
         this.content = content;
-        this.recordCate = RecordCate.valueOf(categories);
+        this.routineCate = RoutineCate.valueOf(categories);
         this.startDate = startDate;
         this.endDate = endDate;
         this.alarmTime = alarmTime;

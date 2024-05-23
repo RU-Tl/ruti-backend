@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum RecordCate {
+public enum RoutineCate {
 
     EXERCISE("운동"),
     READING("독서"),
