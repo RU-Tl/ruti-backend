@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,10 +22,13 @@ public class DailyService {
 
     private final DailyRepository dailyRepository;
 
-    // daily 상세 조회
+    // 루틴 상세 조회
     public List<GetDetailDailyResponse> getDetailDaily(Long memberId, Long routineId) {
 
-        List<Daily> daily = dailyRepository.findByRoutineId(routineId);
+        LocalDateTime endDate = LocalDateTime.now();
+        LocalDateTime startDate = endDate.minusDays(7);
+
+        List<Daily> daily = dailyRepository.findByRoutineIdAndRegTimeBetween(routineId, startDate, endDate);
 
         if (!daily.get(0).getRoutine().getMember().getId().equals(memberId)) {
             throw new ForbiddenException(ErrorCode.FORBIDDEN_EXCEPTION);

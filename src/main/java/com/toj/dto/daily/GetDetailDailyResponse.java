@@ -10,13 +10,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetDetailDailyResponse {
 
-    private Long dailyId;
+    private Long routineId;
     private String dailyCate;
     private int score;
     private LocalDateTime regTime;
 
     public static GetDetailDailyResponse of(
-            Long dailyId, String dailyCate, int score, LocalDateTime regTime) {
-        return new GetDetailDailyResponse(dailyId, dailyCate, score, regTime);
+            Long routineId, String dailyCate, int score, LocalDateTime regTime) {
+        return new GetDetailDailyResponse(routineId, dailyCate, score, regTime);
     }
 }
