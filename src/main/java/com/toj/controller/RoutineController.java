@@ -1,5 +1,6 @@
 package com.toj.controller;
 
+import com.toj.dto.daily.CreateDailyRequest;
 import com.toj.dto.routine.CreateRoutineRequest;
 import com.toj.dto.routine.CreateRoutineResponse;
 import com.toj.dto.routine.GetAllRoutineResponse;
@@ -32,7 +33,7 @@ public class RoutineController {
     }
 
     @GetMapping("/{memberId}/{selectedDate}")
-    public ApiResponse<List<GetAllRoutineResponse>> getAllRoutine(@PathVariable Long memberId, @PathVariable String selectedDate) {
+    public ApiResponse<List<GetAllRoutineResponse>> getAllRoutine(@PathVariable Long memberId, @PathVariable LocalDateTime selectedDate) {
         return ApiResponse.success(routineService.findAllByMemberId(memberId, selectedDate));
     }
 }

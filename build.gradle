@@ -68,23 +68,7 @@ dependencies {
 
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    //feign
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.6'
-
 }
-
-//springboot 버전에 맞춰서 설정
-ext {
-    set('springCloudVersion', "2022.0.5")
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    }
-}
-
 
 //***************** querydsl 추가 시작 *********************//
 def generated = "src/main/generated"
