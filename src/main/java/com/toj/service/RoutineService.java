@@ -3,8 +3,6 @@ package com.toj.service;
 import com.toj.dto.routine.CreateDailyRequest;
 import com.toj.dto.routine.CreateRoutineRequest;
 import com.toj.dto.routine.GetAllRoutineResponse;
-import com.toj.entity.Daily;
-import com.toj.entity.DailyCate;
 import com.toj.entity.Member;
 import com.toj.entity.Routine;
 import com.toj.repository.DailyRepository;
@@ -18,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -53,7 +52,6 @@ public class RoutineService {
             } else {
                 response.setRoutineStatus("NONE");
             }
-
             result.add(response);
         }
 
