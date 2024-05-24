@@ -1,6 +1,7 @@
 package com.toj.service;
 
 import com.toj.dto.daily.GetDetailDailyResponse;
+import com.toj.dto.daily.GetTotalScoreResponse;
 import com.toj.dto.daily.GetWeeklyScoreResponse;
 import com.toj.entity.Daily;
 import com.toj.global.code.ErrorCode;
@@ -62,5 +63,24 @@ public class DailyService {
         }
 
         return GetWeeklyScoreResponse.of(total);
+    }
+
+    // 토탈 스코어 합산
+    public GetTotalScoreResponse getTotalScore(Long memberId, Long routineId) {
+
+        List<Daily> dailyList = dailyRepository.findByRoutineId(routineId);
+
+        if (!dailyList.get(0).getRoutine().getMember().getId().equals(memberId)) {
+            throw new ForbiddenException(ErrorCode.FORBIDDEN_EXCEPTION);
+        }
+
+        int total = 0;
+
+        for (Daily d : dailyList) {
+            int score = d.getScore();
+            total += score;
+        }
+
+        return GetTotalScoreResponse.of(total);
     }
 }

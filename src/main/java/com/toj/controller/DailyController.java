@@ -1,6 +1,7 @@
 package com.toj.controller;
 
 import com.toj.dto.daily.GetDetailDailyResponse;
+import com.toj.dto.daily.GetTotalScoreResponse;
 import com.toj.dto.daily.GetWeeklyScoreResponse;
 import com.toj.global.model.ApiResponse;
 import com.toj.service.DailyService;
@@ -45,6 +46,19 @@ public class DailyController {
 
         return ApiResponse.success(
                 dailyService.getWeeklyScore(memberId, routineId));
+    }
+
+    @Operation(
+            summary = "루틴 토탈 스코어 합산 API",
+            description = "루틴 상세 조회 페이지에서 총 스코어 합산을 합니다."
+    )
+    @GetMapping("/total/{routineId}")
+    public ApiResponse<GetTotalScoreResponse> getTotalScore(
+            @RequestParam Long memberId,
+            @PathVariable("routineId") Long routineId) {
+
+        return ApiResponse.success(
+                dailyService.getTotalScore(memberId, routineId));
     }
 
 

@@ -16,4 +16,5 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
                                                  @Param("startDate")LocalDateTime startDate,
                                                  @Param("endDate")LocalDateTime endDate);
 
+    List<Daily> findByRoutineId(Long routineId);
 }
