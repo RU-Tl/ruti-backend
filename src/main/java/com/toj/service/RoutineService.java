@@ -1,17 +1,19 @@
 package com.toj.service;
 
+import com.toj.dto.routine.CreateDailyRequest;
 import com.toj.dto.routine.CreateRoutineRequest;
 import com.toj.dto.routine.GetAllRoutineResponse;
-import com.toj.entity.*;
+import com.toj.entity.Daily;
+import com.toj.entity.DailyCate;
+import com.toj.entity.Member;
+import com.toj.entity.Routine;
 import com.toj.repository.DailyRepository;
 import com.toj.repository.RoutineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class RoutineService {
             response.setRoutineContent(routine.getContent());
             response.setRoutineAlarmTime(routine.getAlarmTime());
             if (daily.isPresent()) {
-                response.setRoutineStatus(daily.get().getStatus());
+                response.setRoutineStatus(daily.get().getDailyCate().toString());
             } else {
                 response.setRoutineStatus("NONE");
             }
@@ -56,5 +58,16 @@ public class RoutineService {
         }
 
         return result;
+    }
+
+    public Long createDaily(CreateDailyRequest request, Long routineId) {
+        Routine routine = routineRepository.findById(routineId)
+                .orElseThrow(() -> new IllegalStateException("저장된 루틴 정보가 없음."));
+
+        DailyCate status = DailyCate.valueOf(request.getStatus());
+        Daily daily = new Daily(routine, status, request.getFailReason());
+        dailyRepository.save(daily);
+        
+        return daily.getId();
     }
 }
