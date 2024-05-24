@@ -5,6 +5,10 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
+import org.hibernate.annotations.ColumnDefault;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -29,4 +33,16 @@ public class Daily extends BaseTimeEntity {
 
     private String failReason;
 
+
+    public Daily(Routine routine, DailyCate status, String failReason) {
+        this.routine = routine;
+        this.dailyCate = status;
+        if (status.equals(DailyCate.SUCCESS)) {
+            this.score = 10;
+        } else if (status.equals(DailyCate.FAIL)) {
+            this.score = 3;
+        }
+        if (!ObjectUtils.isEmpty(failReason))
+            this.failReason = failReason;
+    }
 }
