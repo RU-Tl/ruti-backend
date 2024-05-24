@@ -1,8 +1,7 @@
 package com.toj.controller;
 
-import com.toj.dto.daily.GetDetailDailyResponse;
-import com.toj.dto.daily.GetTotalScoreResponse;
-import com.toj.dto.daily.GetWeeklyScoreResponse;
+import com.toj.dto.daily.*;
+import com.toj.entity.RoutineCate;
 import com.toj.global.model.ApiResponse;
 import com.toj.service.DailyService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -61,5 +61,18 @@ public class DailyController {
                 dailyService.getTotalScore(memberId, routineId));
     }
 
+    @Operation(
+            summary = "루틴 랭킹 API",
+            description = "루틴 상세 조회 페이지에서 " +
+                    "총 스코어를 기준으로 자신 랭킹을 조회 합니다."
+    )
+    @GetMapping("/ranking")
+    public ApiResponse<Optional<GetRankingResponse>> getRanking(
+            @RequestParam("memberId") Long memberId,
+            @RequestParam("routineCate") RoutineCate routineCate) {
+
+        return ApiResponse.success(
+                dailyService.getRanking(memberId, routineCate));
+    }
 
 }
