@@ -1,19 +1,15 @@
 package com.toj.repository.daily;
 
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.toj.dto.daily.GetRankingResponse;
 import com.toj.dto.daily.QGetRankingResponse;
-import com.toj.entity.QDaily;
-import com.toj.entity.QMember;
-import com.toj.entity.QRoutine;
 import com.toj.entity.RoutineCate;
 
 import java.util.List;
 
-import static com.toj.entity.QDaily.*;
+import static com.toj.entity.QDaily.daily;
 import static com.toj.entity.QMember.member;
-import static com.toj.entity.QRoutine.*;
+import static com.toj.entity.QRoutine.routine;
 
 public class DailyRepositoryCustomImpl implements DailyRepositoryCustom {
 
@@ -40,4 +36,6 @@ public class DailyRepositoryCustomImpl implements DailyRepositoryCustom {
 
         return rank;
     }
+
+
 }
