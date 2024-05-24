@@ -114,4 +114,26 @@ public class DailyService {
                 .filter(r -> r.getMemberId().equals(memberId))
                 .findFirst();
     }
+
+    // 루틴 1주일간 달성률
+    public GetDailyRateResponse getRate(Long memberId, Long routineId) {
+
+        LocalDateTime endDate = LocalDateTime.now();
+        LocalDateTime startDate = endDate.minusDays(7);
+
+        List<Daily> daily = dailyRepository.findByRoutineIdAndRegTimeBetween(routineId, startDate, endDate);
+
+        if (!daily.get(0).getRoutine().getMember().getId().equals(memberId)) {
+            throw new ForbiddenException(ErrorCode.FORBIDDEN_EXCEPTION);
+        }
+
+        long successCount = daily.stream()
+                .filter(d -> "SUCCESS".equals(d.getDailyCate().name()))
+                .count();
+
+        double successRate = ((double) successCount / daily.size()) * 100;
+
+        return GetDailyRateResponse.of(successRate);
+    }
+
 }

@@ -75,4 +75,19 @@ public class DailyController {
                 dailyService.getRanking(memberId, routineCate));
     }
 
+    @Operation(
+            summary = "루틴 달성률 API",
+            description = "루틴 상세 조회 페이지에서 " +
+                    "달성률을 조회 합니다."
+    )
+    @GetMapping("/rate/{routineId}")
+    public ApiResponse<GetDailyRateResponse> getRate(
+            @RequestParam Long memberId,
+            @PathVariable("routineId") Long routineId) {
+
+        return ApiResponse.success(
+                dailyService.getRate(memberId, routineId));
+
+    }
+
 }
