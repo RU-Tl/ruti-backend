@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,25 +19,26 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
     public Map<String, Object> login(UserLoginDto userLoginDto) {
-        Member member = findOrCreateMember(userLoginDto);
-        String token = tokenProvider.generateToken(member.getEmail());
+        Long memberId = findOrCreateMember(userLoginDto);
+        String token = tokenProvider.generateToken(memberId);
         Map<String, Object> map = new ConcurrentHashMap<>();
         map.put("token", token);
-        map.put("memberId", member.getId());
-
+        map.put("memberId", memberId);
         return map;
     }
 
-    private Member findOrCreateMember(UserLoginDto userLoginDto) {
+    private Long findOrCreateMember(UserLoginDto userLoginDto) {
         return memberRepository.findByEmail(userLoginDto.getEmail())
+                .map(Member::getId)
                 .orElseGet(() -> createMember(userLoginDto));
     }
 
-    private Member createMember(UserLoginDto userLoginDto) {
-        Member member = new Member(userLoginDto.getName(), userLoginDto.getEmail(), makeNickName());
-        memberRepository.save(member);
+    @Transactional
+    private Long createMember(UserLoginDto userLoginDto) {
+        Member member = new Member(userLoginDto.getEmail(), userLoginDto.getName(), makeNickName());
+        Long id = memberRepository.save(member).getId();
 
-        return member;
+        return id;
     }
 
     private String makeNickName()  {
