@@ -12,9 +12,11 @@ import com.toj.entity.Routine;
 import com.toj.repository.daily.DailyRepository;
 import com.toj.repository.RoutineRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -38,9 +40,11 @@ public class RoutineService {
 
     public List<GetAllRoutineResponse> findAllByMemberId(Long memberId, LocalDateTime selectedDate) {
 //        LocalDateTime selected = LocalDate.parse(selectedDate, dateFormatter).atTime(LocalTime.MIDNIGHT);
+        LocalDate selected = selectedDate.toLocalDate();
+
         List<Routine> routineList = routineRepository.findAllByMemberId(memberId).stream()
-                .filter(routine -> selectedDate.isAfter(routine.getStartDate()) || selectedDate.isEqual(routine.getStartDate()))
-                .filter(routine -> selectedDate.isBefore(routine.getEndDate()) || selectedDate.isEqual(routine.getEndDate()))
+                .filter(routine -> selected.isAfter(routine.getStartDate().toLocalDate()) || selected.isEqual(routine.getStartDate().toLocalDate()))
+                .filter(routine -> selected.isBefore(routine.getEndDate().toLocalDate()) || selected.isEqual(routine.getEndDate().toLocalDate()))
                 .toList();
 
         List<GetAllRoutineResponse> result = new ArrayList<>();
