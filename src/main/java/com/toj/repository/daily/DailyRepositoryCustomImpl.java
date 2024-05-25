@@ -25,6 +25,7 @@ public class DailyRepositoryCustomImpl implements DailyRepositoryCustom {
         List<GetRankingResponse> rank = queryFactory.
                 select(new QGetRankingResponse(
                         routine.member.id,
+                        member.nickname,
                         daily.score.sum().as("totalScore")
                 ))
                 .from(daily)

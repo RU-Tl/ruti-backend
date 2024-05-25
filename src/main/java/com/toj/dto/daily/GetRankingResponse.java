@@ -8,6 +8,7 @@ import lombok.*;
 public class GetRankingResponse {
 
     private Long memberId;
+    private String nickname;
     private Integer totalScore;
     private Integer ranking;
 
@@ -16,8 +17,9 @@ public class GetRankingResponse {
     }
 
     @QueryProjection
-    public GetRankingResponse(Long memberId, Integer totalScore) {
+    public GetRankingResponse(Long memberId, String nickname, Integer totalScore) {
         this.memberId = memberId;
+        this.nickname = nickname;
         this.totalScore = totalScore;
     }
 }
