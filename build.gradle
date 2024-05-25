@@ -5,7 +5,6 @@ plugins {
 }
 
 group = 'toj'
-version = '0.0.1-SNAPSHOT'
 
 java {
     sourceCompatibility = '17'
@@ -86,5 +85,5 @@ tasks.named('test') {
 }
 
 tasks.named("bootJar") {
-    mainClass = 'com.toj.tojApplication'
+    mainClass = 'com.toj.TojApplication'
 }

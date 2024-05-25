@@ -17,10 +17,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     private final TokenProvider tokenProvider;
     private final MemberRepository memberRepository;
+    private final static String TOKEN_PREFIX = "Bearer ";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getHeader("Authorization");
+        String authorizationHeader = request.getHeader("Authorization");
+        String token = getAccessToken(authorizationHeader);
 
         if (ObjectUtils.isEmpty(token)) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
@@ -35,5 +37,12 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         }
         throw new IllegalAccessException("Invalid Token");
+    }
+
+    private String getAccessToken(String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX)) {
+            return authorizationHeader.substring(TOKEN_PREFIX.length());
+        }
+        return null;
     }
 }

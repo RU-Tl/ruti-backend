@@ -39,4 +39,10 @@ public class Routine {
         this.endDate = endDate;
         this.alarmTime = alarmTime;
     }
+
+    public Long update(String content) {
+        this.content = content;
+
+        return this.id;
+    }
 }

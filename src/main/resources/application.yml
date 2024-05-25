@@ -9,8 +9,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/toj?serverTimezone=Asia/Seoul
-    username:
-    password:
+    username: root
+    password: 1234
 
   jpa:
     hibernate:
@@ -34,8 +34,8 @@ spring:
         max-page-size: 2000
 
 logging.level:
-  org.hibernate.SQL: debug
-  org.hibernate.type: trace
+  org.hibernate.SQL: info
+#  org.hibernate.type: trace
 
 feign:
   client:

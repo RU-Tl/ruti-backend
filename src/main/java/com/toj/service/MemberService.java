@@ -41,8 +41,8 @@ public class MemberService {
         return member;
     }
 
-    private String makeNickName() {
-        return "RoutineMaster" + LocalDateTime.now();
+    private String makeNickName()  {
+        return "RoutineMaster" + (int) (Math.random() * 1000);
     }
 
     public Member findById(Long memberId) {

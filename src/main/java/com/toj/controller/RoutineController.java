@@ -1,5 +1,7 @@
 package com.toj.controller;
 
+import com.toj.dto.daily.EditRoutineRequest;
+import com.toj.dto.daily.EditRoutineResponse;
 import com.toj.dto.routine.*;
 import com.toj.entity.Member;
 import com.toj.global.model.ApiResponse;
@@ -29,6 +31,11 @@ public class RoutineController {
     @GetMapping("/{memberId}/{selectedDate}")
     public ApiResponse<List<GetAllRoutineResponse>> getAllRoutine(@PathVariable Long memberId, @PathVariable LocalDateTime selectedDate) {
         return ApiResponse.success(routineService.findAllByMemberId(memberId, selectedDate));
+    }
+
+    @PatchMapping("/daily/{routineId}")
+    public ApiResponse<EditRoutineResponse> createRoutine(@RequestBody EditRoutineRequest request, @PathVariable Long routineId) {
+        return ApiResponse.success(routineService.updateRoutine(request, routineId));
     }
 
     @PostMapping("/daily/{routineId}")

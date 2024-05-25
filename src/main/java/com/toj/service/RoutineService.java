@@ -1,5 +1,7 @@
 package com.toj.service;
 
+import com.toj.dto.daily.EditRoutineRequest;
+import com.toj.dto.daily.EditRoutineResponse;
 import com.toj.dto.routine.CreateDailyRequest;
 import com.toj.dto.routine.CreateRoutineRequest;
 import com.toj.dto.routine.GetAllRoutineResponse;
@@ -69,5 +71,14 @@ public class RoutineService {
         dailyRepository.save(daily);
         
         return daily.getId();
+    }
+
+    public EditRoutineResponse updateRoutine(EditRoutineRequest request, Long routineId) {
+        Routine routine = routineRepository.findById(routineId)
+                .orElseThrow(() -> new IllegalStateException("저장된 루틴 정보가 없음."));
+
+        routine.update(request.getContent());
+
+        return new EditRoutineResponse(routineId, routine.getRoutineCate(), routine.getContent());
     }
 }
