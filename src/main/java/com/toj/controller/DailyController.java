@@ -76,6 +76,19 @@ public class DailyController {
     }
 
     @Operation(
+            summary = "카테고리별 랭킹 리스트 조회 API",
+            description = "카테고리별 랭킹 리스트(1~10위)를 조회 합니다."
+    )
+    @GetMapping("/ranking/list")
+    public ApiResponse <List<GetRankingResponse>> getRankingList(
+            @RequestParam(required = false) Long memberId,
+            @RequestParam("routineCate") RoutineCate routineCate) {
+
+        return ApiResponse.success(
+                dailyService.getRankingList(memberId, routineCate));
+    }
+
+    @Operation(
             summary = "루틴 달성률 API",
             description = "루틴 상세 조회 페이지에서 " +
                     "달성률을 조회 합니다."
@@ -87,7 +100,8 @@ public class DailyController {
 
         return ApiResponse.success(
                 dailyService.getRate(memberId, routineId));
-
     }
+
+
 
 }

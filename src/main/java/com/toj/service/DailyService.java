@@ -7,6 +7,7 @@ import com.toj.global.code.ErrorCode;
 import com.toj.global.error.exception.ForbiddenException;
 import com.toj.repository.daily.DailyRepository;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,12 +86,25 @@ public class DailyService {
 
         return GetTotalScoreResponse.of(total);
     }
-
-    /**
-     * 랭킹 조회
-     */
+    
+    // 자신 랭킹 조회
     public Optional<GetRankingResponse> getRanking(Long memberId, RoutineCate routineCate) {
 
+        List<GetRankingResponse> rankingWithTotalScore = getRankingWithTotalScore(routineCate);
+
+        return rankingWithTotalScore.stream()
+                .filter(r -> r.getMemberId().equals(memberId))
+                .findFirst();
+    }
+
+    // 랭킹 리스트 조회
+    public List<GetRankingResponse> getRankingList(Long memberId, RoutineCate routineCate) {
+
+        return getRankingWithTotalScore(routineCate);
+    }
+
+    @NotNull
+    private List<GetRankingResponse> getRankingWithTotalScore(RoutineCate routineCate) {
         List<GetRankingResponse> rankingWithTotalScore = dailyRepository.getRankingWithTotalScore(routineCate);
 
         // 점수 순으로 내림차순 정렬 (점수같으면 memberId로 오름차순)
@@ -109,10 +123,7 @@ public class DailyService {
             current.setRanking(rank.get());
             previous = current;
         }
-
-        return rankingWithTotalScore.stream()
-                .filter(r -> r.getMemberId().equals(memberId))
-                .findFirst();
+        return rankingWithTotalScore;
     }
 
     // 루틴 1주일간 달성률
