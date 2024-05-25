@@ -102,6 +102,18 @@ public class DailyController {
                 dailyService.getRate(memberId, routineId));
     }
 
+    @Operation(
+            summary = "캘린더 조회 API",
+            description = "캘린더를 카테고리별로 조회 합니다."
+    )
+    @GetMapping("/calendar")
+    public ApiResponse<List<GetCalendarResponse>> getCalendar(
+            @RequestParam Long memberId,
+            @RequestParam int month,
+            @RequestParam RoutineCate routineCate) {
 
+        return ApiResponse.success(
+                dailyService.getCalendar(memberId, month, routineCate));
+    }
 
 }

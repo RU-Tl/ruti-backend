@@ -147,4 +147,15 @@ public class DailyService {
         return GetDailyRateResponse.of(successRate);
     }
 
+    // 캘린더 조회
+    public List<GetCalendarResponse> getCalendar(Long memberId, int month, RoutineCate routineCate) {
+
+        List<GetCalendarResponse> calendars = dailyRepository.getCalendar(memberId, month, routineCate);
+
+        List<GetCalendarResponse> calendar = calendars.stream()
+                .filter(c -> c.getRegTime().getMonthValue() == month)
+                .collect(Collectors.toList());
+
+        return calendar;
+    }
 }
