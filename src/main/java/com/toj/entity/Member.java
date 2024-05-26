@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -19,9 +18,7 @@ public class Member {
     private String email;
     private String name;
     private String nickname;
-//    @ColumnDefault("Basic")
     private String grade;
-
 
     public Member (String email, String name, String nickname) {
         this.email = email;

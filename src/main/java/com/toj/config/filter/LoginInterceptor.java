@@ -11,6 +11,8 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.util.Objects;
+
 @Component
 @RequiredArgsConstructor
 public class LoginInterceptor implements HandlerInterceptor {
@@ -29,11 +31,11 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        String email = tokenProvider.getUserEmail(token);
-        Member findMember = memberRepository.findByEmail(email)
+        Long memberId = tokenProvider.getMemberId(token);
+        Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException("You are an unregistered user."));
 
-        if (findMember.getEmail().equals(email)) {
+        if (Objects.equals(findMember.getId(), memberId)) {
             return true;
         }
         throw new IllegalAccessException("Invalid Token");

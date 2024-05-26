@@ -13,24 +13,24 @@ public class TokenProvider {
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private final static long expiredAt = 365 * 24 * 60 * 60 * 1000L; // 1년
 
-    public String generateToken(String email) {
-        return makeToken(email);
+    public String generateToken(Long memberId) {
+        return makeToken(memberId);
     }
 
-    private String makeToken(String email) {
+    private String makeToken(Long memberId) {
         // header에 들어갈 내용 및 서명을 하기 위한 SECRET_KEY
         // payload 에 들어갈 내용
         return Jwts.builder()
                 .setIssuer("RUTI APP")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + expiredAt))
-                .setSubject(email)
+                .setSubject(String.valueOf(memberId))
                 .signWith(key)
                 .compact();
     }
 
-    public String getUserEmail(String token) {
-        return getClaims(token);
+    public Long getMemberId(String token) {
+        return Long.parseLong(getClaims(token));
     }
 
     private String getClaims(String token) {
