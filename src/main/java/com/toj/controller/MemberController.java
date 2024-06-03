@@ -3,9 +3,11 @@ package com.toj.controller;
 import com.toj.dto.member.MyPageDto;
 import com.toj.dto.member.RemoveMemberDto;
 import com.toj.dto.member.MemberLoginDto;
+import com.toj.dto.member.UpdateNicknameResponse;
 import com.toj.entity.Member;
 import com.toj.global.model.ApiResponse;
 import com.toj.service.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,4 +35,18 @@ public class MemberController {
         Member member = memberService.findMemberInfo(memberId);
         return ApiResponse.success(new MyPageDto(member.getNickname(), member.getGrade().getValue()));
     }
+
+    @Operation(
+            summary = "닉네임 변경 API",
+            description = "마이페이지에서 사용자 닉네임을 변경합니다."
+    )
+    @PostMapping("/nickname/{memberId}")
+    public ApiResponse<UpdateNicknameResponse> updateNickname(
+            @PathVariable Long memberId, @RequestParam String nickname) {
+
+        return ApiResponse.success(
+                memberService.updateNickname(memberId, nickname)
+        );
+    }
+
 }

@@ -19,7 +19,8 @@ public enum ErrorCode {
      * 404 Not Found
      */
     NOT_FOUND_EXCEPTION(NOT_FOUND, false, "NF001", "존재하지 않는 엔티티 정보입니다."),
-    NOT_EXISTS_DAILY(NOT_FOUND, false, "NF002", "존재하지 않는 일상입니다.");
+    NOT_EXISTS_DAILY(NOT_FOUND, false, "NF002", "존재하지 않는 일상입니다."),
+    NOT_EXISTS_MEMBER(NOT_FOUND, false, "NF003", "존재하지 않는 회원입니다.");
 
 
 

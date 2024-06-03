@@ -45,4 +45,7 @@ public class Member {
         this.grade = memberGrade;
     }
 
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }
