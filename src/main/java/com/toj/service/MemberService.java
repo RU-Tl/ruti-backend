@@ -70,7 +70,7 @@ public class MemberService {
     public UpdateNicknameResponse updateNickname(Long memberId, String nickname) {
 
         Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new ForbiddenException(ErrorCode.NOT_EXISTS_Member));
+            .orElseThrow(() -> new ForbiddenException(ErrorCode.NOT_EXISTS_MEMBER));
 
         member.updateNickname(nickname);
 
