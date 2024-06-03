@@ -87,3 +87,7 @@ tasks.named('test') {
 tasks.named("bootJar") {
     mainClass = 'com.toj.TojApplication'
 }
+
+bootRun {
+    args = ["--spring.profiles.active=local"]
+}

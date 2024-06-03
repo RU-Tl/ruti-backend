@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,6 +32,9 @@ public class Routine {
     private LocalDateTime endDate;
 
     private String alarmTime;
+
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL)
+    private List<Daily> dailyList = new ArrayList<>();
 
     public Routine(Member member, String content, String categories, LocalDateTime startDate, LocalDateTime endDate, String alarmTime) {
         this.member = member;

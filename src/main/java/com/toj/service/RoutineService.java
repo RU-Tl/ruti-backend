@@ -5,10 +5,8 @@ import com.toj.dto.daily.EditRoutineResponse;
 import com.toj.dto.routine.CreateDailyRequest;
 import com.toj.dto.routine.CreateRoutineRequest;
 import com.toj.dto.routine.GetAllRoutineResponse;
-import com.toj.entity.Daily;
-import com.toj.entity.DailyCate;
-import com.toj.entity.Member;
-import com.toj.entity.Routine;
+import com.toj.entity.*;
+import com.toj.repository.MemberRepository;
 import com.toj.repository.daily.DailyRepository;
 import com.toj.repository.RoutineRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +26,7 @@ import java.util.Optional;
 public class RoutineService {
     private final RoutineRepository routineRepository;
     private final DailyRepository dailyRepository;
+    private final MemberRepository memberRepository;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public Long createRoutine(CreateRoutineRequest request, Member findMember) {
@@ -69,8 +68,25 @@ public class RoutineService {
         DailyCate status = DailyCate.valueOf(request.getStatus());
         Daily daily = new Daily(routine, status, request.getFailReason());
         dailyRepository.save(daily);
-        
+
+        updateTotalScore(routine.getMember().getId(), daily.getScore());
+
         return daily.getId();
+    }
+
+    public void updateTotalScore(Long memberId, int score) {
+        Member member = memberRepository.findById(memberId).get();
+        member.updateTotalScore(score);
+
+        if (member.getTotalScore() <= 100) {
+            member.updateGrade(MemberGrade.RUCOMI);
+        } else if (member.getTotalScore() <= 200) {
+            member.updateGrade(MemberGrade.RUTINI);
+        } else if (member.getTotalScore() <= 300) {
+            member.updateGrade(MemberGrade.ROUTINEMASTER);
+        } else {
+            member.updateGrade(MemberGrade.ROUTINELEVELMAX);
+        }
     }
 
     public EditRoutineResponse updateRoutine(EditRoutineRequest request, Long routineId) {
