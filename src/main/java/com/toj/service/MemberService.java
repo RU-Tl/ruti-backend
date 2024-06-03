@@ -42,7 +42,9 @@ public class MemberService {
     }
 
     private String makeNickName()  {
-        return "RoutineMaster" + (int) (Math.random() * 1000);
+        Long max = memberRepository.findMaxMemberId()
+                .orElseGet(() -> 0L);
+        return "루꼬미" + (max+1);
     }
 
     public Member findById(Long memberId) {

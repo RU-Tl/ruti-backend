@@ -25,4 +25,6 @@ public class MemberController {
     public ApiResponse<RemoveMemberDto> removeMember(@PathVariable Long memberId) {
         return ApiResponse.success(new RemoveMemberDto(memberService.deleteMember(memberId)));
     }
+
+
 }

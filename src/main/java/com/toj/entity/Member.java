@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -18,11 +21,17 @@ public class Member {
     private String email;
     private String name;
     private String nickname;
-    private String grade;
+
+    @Enumerated(EnumType.STRING)
+    private MemberGrade grade;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Routine> routineList = new ArrayList<>();
 
     public Member (String email, String name, String nickname) {
         this.email = email;
         this.name = name;
         this.nickname = nickname;
+        this.grade = MemberGrade.LUCOMI;
     }
 }
