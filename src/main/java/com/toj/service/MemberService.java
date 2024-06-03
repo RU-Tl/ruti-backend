@@ -2,6 +2,7 @@ package com.toj.service;
 
 import com.toj.config.jwt.TokenProvider;
 import com.toj.dto.member.MemberLoginDto;
+import com.toj.dto.member.UpdateNicknameResponse;
 import com.toj.entity.Member;
 import com.toj.global.code.ErrorCode;
 import com.toj.global.error.exception.ForbiddenException;
@@ -64,5 +65,15 @@ public class MemberService {
     public Member findMemberInfo(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new ForbiddenException(ErrorCode.FORBIDDEN_EXCEPTION));
+    }
+
+    public UpdateNicknameResponse updateNickname(Long memberId, String nickname) {
+
+        Member member = memberRepository.findById(memberId)
+            .orElseThrow(() -> new ForbiddenException(ErrorCode.NOT_EXISTS_Member));
+
+        member.updateNickname(nickname);
+
+        return UpdateNicknameResponse.of(member.getId(), member.getNickname());
     }
 }
