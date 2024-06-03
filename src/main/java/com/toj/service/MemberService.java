@@ -47,6 +47,14 @@ public class MemberService {
 
     public Member findById(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않은 회원."));
+                .orElseThrow(() -> new NotFoundException("존재하지 않은 회원입니다."));
+    }
+
+    public Long deleteMember(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않은 회원입니다."));
+
+        memberRepository.delete(member);
+        return member.getId();
     }
 }
