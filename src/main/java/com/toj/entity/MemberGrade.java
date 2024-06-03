@@ -7,9 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MemberGrade {
 
-    LUCOMI("루꼬미"),
-    LUTINI("루티니"),
-    LOUTINEMASTER("루틴마스터"),
+    RUCOMI("루꼬미"),
+    RUTINI("루티니"),
+    ROUTINEMASTER("루틴마스터"),
     ROUTINELEVELMAX("루틴만렙");
 
     private final String value;

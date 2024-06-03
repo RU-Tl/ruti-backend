@@ -24,6 +24,7 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private MemberGrade grade;
+    private int totalScore;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Routine> routineList = new ArrayList<>();
@@ -32,6 +33,16 @@ public class Member {
         this.email = email;
         this.name = name;
         this.nickname = nickname;
-        this.grade = MemberGrade.LUCOMI;
+        this.grade = MemberGrade.RUCOMI;
+        this.totalScore = 0;
     }
+
+    public void updateTotalScore(int score) {
+        this.totalScore += score;
+    }
+
+    public void updateGrade(MemberGrade memberGrade) {
+        this.grade = memberGrade;
+    }
+
 }

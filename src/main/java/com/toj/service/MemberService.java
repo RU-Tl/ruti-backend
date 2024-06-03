@@ -1,9 +1,10 @@
 package com.toj.service;
 
 import com.toj.config.jwt.TokenProvider;
-import com.toj.dto.member.UserLoginDto;
+import com.toj.dto.member.MemberLoginDto;
 import com.toj.entity.Member;
-import com.toj.exception.NotFoundException;
+import com.toj.global.code.ErrorCode;
+import com.toj.global.error.exception.ForbiddenException;
 import com.toj.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
-    public Map<String, Object> login(UserLoginDto userLoginDto) {
-        Long memberId = findOrCreateMember(userLoginDto);
+    public Map<String, Object> login(MemberLoginDto memberLoginDto) {
+        Long memberId = findOrCreateMember(memberLoginDto);
         String token = tokenProvider.generateToken(memberId);
         Map<String, Object> map = new ConcurrentHashMap<>();
         map.put("token", token);
@@ -27,15 +28,15 @@ public class MemberService {
         return map;
     }
 
-    private Long findOrCreateMember(UserLoginDto userLoginDto) {
-        return memberRepository.findByEmail(userLoginDto.getEmail())
+    private Long findOrCreateMember(MemberLoginDto memberLoginDto) {
+        return memberRepository.findByEmail(memberLoginDto.getEmail())
                 .map(Member::getId)
-                .orElseGet(() -> createMember(userLoginDto));
+                .orElseGet(() -> createMember(memberLoginDto));
     }
 
     @Transactional
-    private Long createMember(UserLoginDto userLoginDto) {
-        Member member = new Member(userLoginDto.getEmail(), userLoginDto.getName(), makeNickName());
+    private Long createMember(MemberLoginDto memberLoginDto) {
+        Member member = new Member(memberLoginDto.getEmail(), memberLoginDto.getName(), makeNickName());
         Long id = memberRepository.save(member).getId();
 
         return id;
@@ -49,14 +50,19 @@ public class MemberService {
 
     public Member findById(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않은 회원입니다."));
+                .orElseThrow(() ->new ForbiddenException(ErrorCode.FORBIDDEN_EXCEPTION));
     }
 
     public Long deleteMember(Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않은 회원입니다."));
+                .orElseThrow(() -> new ForbiddenException(ErrorCode.FORBIDDEN_EXCEPTION));
 
         memberRepository.delete(member);
         return member.getId();
+    }
+
+    public Member findMemberInfo(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new ForbiddenException(ErrorCode.FORBIDDEN_EXCEPTION));
     }
 }

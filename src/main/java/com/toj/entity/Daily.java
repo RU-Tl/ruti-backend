@@ -29,8 +29,6 @@ public class Daily extends BaseTimeEntity {
 
     private int score;
 
-    private String status;
-
     private String failReason;
 
 
