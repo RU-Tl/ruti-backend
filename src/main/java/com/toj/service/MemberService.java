@@ -1,7 +1,7 @@
 package com.toj.service;
 
 import com.toj.config.jwt.TokenProvider;
-import com.toj.dto.member.MemberLoginDto;
+import com.toj.dto.member.LoginRequest;
 import com.toj.dto.member.UpdateNicknameResponse;
 import com.toj.entity.Member;
 import com.toj.global.code.ErrorCode;
@@ -20,8 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
-    public Map<String, Object> login(MemberLoginDto memberLoginDto) {
-        Long memberId = findOrCreateMember(memberLoginDto);
+    public Map<String, Object> login(LoginRequest loginRequest) {
+        Long memberId = findOrCreateMember(loginRequest);
         String token = tokenProvider.generateToken(memberId);
         Map<String, Object> map = new ConcurrentHashMap<>();
         map.put("token", token);
@@ -29,15 +29,14 @@ public class MemberService {
         return map;
     }
 
-    private Long findOrCreateMember(MemberLoginDto memberLoginDto) {
-        return memberRepository.findByEmail(memberLoginDto.getEmail())
+    private Long findOrCreateMember(LoginRequest loginRequest) {
+        return memberRepository.findByEmail(loginRequest.getEmail())
                 .map(Member::getId)
-                .orElseGet(() -> createMember(memberLoginDto));
+                .orElseGet(() -> createMember(loginRequest));
     }
 
-    @Transactional
-    private Long createMember(MemberLoginDto memberLoginDto) {
-        Member member = new Member(memberLoginDto.getEmail(), memberLoginDto.getName(), makeNickName());
+    private Long createMember(LoginRequest loginRequest) {
+        Member member = new Member(loginRequest.getEmail(), loginRequest.getName(), makeNickName());
         Long id = memberRepository.save(member).getId();
 
         return id;

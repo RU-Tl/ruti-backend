@@ -3,6 +3,7 @@ package com.toj.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,16 +28,16 @@ public class Routine {
 
     private String content;
 
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     private String alarmTime;
 
     @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL)
     private List<Daily> dailyList = new ArrayList<>();
 
-    public Routine(Member member, String content, String categories, LocalDateTime startDate, LocalDateTime endDate, String alarmTime) {
+    public Routine(Member member, String content, String categories, LocalDate startDate, LocalDate endDate, String alarmTime) {
         this.member = member;
         this.content = content;
         this.routineCate = RoutineCate.valueOf(categories);

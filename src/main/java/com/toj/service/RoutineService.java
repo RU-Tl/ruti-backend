@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,6 @@ public class RoutineService {
     private final RoutineRepository routineRepository;
     private final DailyRepository dailyRepository;
     private final MemberRepository memberRepository;
-    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public Long createRoutine(CreateRoutineRequest request, Member findMember) {
         Routine routine = new Routine(findMember, request.getContent(), request.getCategories(), request.getStartDate(), request.getEndDate(), request.getAlarmTime());
@@ -35,8 +36,7 @@ public class RoutineService {
         return routine.getId();
     }
 
-    public List<GetAllRoutineResponse> findAllByMemberId(Long memberId, LocalDateTime selectedDate) {
-//        LocalDateTime selected = LocalDate.parse(selectedDate, dateFormatter).atTime(LocalTime.MIDNIGHT);
+    public List<GetAllRoutineResponse> findAllByMemberId(Long memberId, LocalDate selectedDate) {
         List<Routine> routineList = routineRepository.findAllByMemberId(memberId).stream()
                 .filter(routine -> selectedDate.isAfter(routine.getStartDate()) || selectedDate.isEqual(routine.getStartDate()))
                 .filter(routine -> selectedDate.isBefore(routine.getEndDate()) || selectedDate.isEqual(routine.getEndDate()))
