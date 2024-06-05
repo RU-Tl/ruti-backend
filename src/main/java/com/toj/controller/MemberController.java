@@ -44,7 +44,7 @@ public class MemberController {
     @GetMapping("/myPage/{memberId}")
     public ApiResponse<MyPageResponse> getMyPage(@PathVariable Long memberId) {
         Member member = memberService.findMemberInfo(memberId);
-        return ApiResponse.success(new MyPageResponse(member.getNickname(), member.getGrade().getValue()));
+        return ApiResponse.success(new MyPageResponse(member.getNickname(), member.getGrade().getValue(), member.getTotalScore()));
     }
 
     @Operation(

@@ -14,4 +14,6 @@ public class MyPageResponse {
     private String nickname;
     @Schema(description = "회원 등급", example = "루꼬미")
     private String grade;
+    @Schema(description = "루틴 총 스코어", example = "0")
+    private int totalScore;
 }
