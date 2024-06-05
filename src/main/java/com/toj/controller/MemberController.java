@@ -41,7 +41,7 @@ public class MemberController {
             summary = "마이페이지 조회 API",
             description = "마이페이지에서 사용자 정보를 조회합니다."
     )
-    @GetMapping("/myPage/{memberId}")
+    @GetMapping("/mypage/{memberId}")
     public ApiResponse<MyPageResponse> getMyPage(@PathVariable Long memberId) {
         Member member = memberService.findMemberInfo(memberId);
         return ApiResponse.success(new MyPageResponse(member.getNickname(), member.getGrade().getValue(), member.getTotalScore()));
