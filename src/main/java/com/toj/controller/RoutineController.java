@@ -30,9 +30,7 @@ public class RoutineController {
     )
     @PostMapping("/{memberId}")
     public ApiResponse<CreateRoutineResponse> createRoutine(@RequestBody CreateRoutineRequest request, @PathVariable Long memberId) {
-        Member findMember = memberService.findById(memberId);
-
-        return ApiResponse.success(new CreateRoutineResponse(routineService.createRoutine(request, findMember)));
+        return ApiResponse.success(new CreateRoutineResponse(routineService.createRoutine(request, memberId)));
     }
 
     @Operation(

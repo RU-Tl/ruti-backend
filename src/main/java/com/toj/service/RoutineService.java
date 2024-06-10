@@ -6,6 +6,7 @@ import com.toj.dto.routine.CreateDailyRequest;
 import com.toj.dto.routine.CreateRoutineRequest;
 import com.toj.dto.routine.GetAllRoutineResponse;
 import com.toj.entity.*;
+import com.toj.exception.NotFoundException;
 import com.toj.repository.MemberRepository;
 import com.toj.repository.daily.DailyRepository;
 import com.toj.repository.RoutineRepository;
@@ -14,9 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,10 +28,29 @@ public class RoutineService {
     private final DailyRepository dailyRepository;
     private final MemberRepository memberRepository;
 
-    public Long createRoutine(CreateRoutineRequest request, Member findMember) {
+    private final int routineMax = 3;
+
+    public Long createRoutine(CreateRoutineRequest request, Long memberId) {
+        if (!isRoutineUnderThree(memberId)) {
+            throw new IllegalStateException("루틴은 최대 3개까지만 등록할 수 있어요.");
+        }
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotFoundException("잘못된 회원 정보 입니다."));
+
         Routine routine = new Routine(findMember, request.getContent(), request.getCategories(), request.getStartDate(), request.getEndDate(), request.getAlarmTime());
         routineRepository.save(routine);
         return routine.getId();
+    }
+
+    private boolean isRoutineUnderThree(Long memberId) {
+        List<Routine> routineList = routineRepository.findAllByMemberId(memberId).stream()
+                .filter(routine -> routine.getEndDate().isAfter(LocalDate.now())) // 현재 진행 중인 루틴인 경우만 참.
+                .toList();
+
+        if (routineList.size() >= routineMax)
+           return false;
+
+        return true;
     }
 
     public List<GetAllRoutineResponse> findAllByMemberId(Long memberId, LocalDate selectedDate) {
