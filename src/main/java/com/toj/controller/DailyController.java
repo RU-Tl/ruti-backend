@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/routine")
+@RequestMapping("/daily")
 @Tag(name = "daily", description = "반복 루틴 API")
 public class DailyController {
 
@@ -26,10 +26,10 @@ public class DailyController {
                     "개별 루틴 상세 최근 7일 내역이 조회가됩니다.\n\n" +
                     "날짜별 성공,실패 여부와 스코어가 조회됩니다."
     )
-    @GetMapping("/{routineId}")
+    @GetMapping("/{memberId}/{routineId}")
     public ApiResponse <List<GetDetailDailyResponse>> getDetailDaily(
-            @RequestParam Long memberId,
-            @PathVariable("routineId") Long routineId) {
+            @PathVariable Long memberId,
+            @PathVariable Long routineId) {
 
         return ApiResponse.success(
                 dailyService.getDetailDaily(memberId,routineId));
@@ -39,10 +39,10 @@ public class DailyController {
             summary = "루틴 주간 스코어 합산 API",
             description = "루틴 상세 조회 페이지에서 주간 스코어 합산을 합니다."
     )
-    @GetMapping("/weekly/{routineId}")
+    @GetMapping("/weekly/{memberId}/{routineId}")
     public ApiResponse<GetWeeklyScoreResponse> getWeeklyScore(
-            @RequestParam Long memberId,
-            @PathVariable("routineId") Long routineId) {
+            @PathVariable Long memberId,
+            @PathVariable Long routineId) {
 
         return ApiResponse.success(
                 dailyService.getWeeklyScore(memberId, routineId));
@@ -52,10 +52,10 @@ public class DailyController {
             summary = "루틴 토탈 스코어 합산 API",
             description = "루틴 상세 조회 페이지에서 총 스코어 합산을 합니다."
     )
-    @GetMapping("/total/{routineId}")
+    @GetMapping("/total/{memberId}/{routineId}")
     public ApiResponse<GetTotalScoreResponse> getTotalScore(
-            @RequestParam Long memberId,
-            @PathVariable("routineId") Long routineId) {
+            @PathVariable Long memberId,
+            @PathVariable Long routineId) {
 
         return ApiResponse.success(
                 dailyService.getTotalScore(memberId, routineId));
@@ -66,10 +66,10 @@ public class DailyController {
             description = "루틴 상세 조회 페이지에서 " +
                     "총 스코어를 기준으로 자신 랭킹을 조회 합니다."
     )
-    @GetMapping("/ranking")
+    @GetMapping("/ranking/{memberId}/{routineCate}")
     public ApiResponse<Optional<GetRankingResponse>> getRanking(
-            @RequestParam("memberId") Long memberId,
-            @RequestParam("routineCate") RoutineCate routineCate) {
+            @PathVariable Long memberId,
+            @PathVariable RoutineCate routineCate) {
 
         return ApiResponse.success(
                 dailyService.getRanking(memberId, routineCate));
@@ -79,10 +79,10 @@ public class DailyController {
             summary = "카테고리별 랭킹 리스트 조회 API",
             description = "카테고리별 랭킹 리스트(1~10위)를 조회 합니다."
     )
-    @GetMapping("/ranking/list")
+    @GetMapping("/ranking/list/{memberId}/{routineCate}")
     public ApiResponse <List<GetRankingResponse>> getRankingList(
-            @RequestParam(required = false) Long memberId,
-            @RequestParam("routineCate") RoutineCate routineCate) {
+            @PathVariable Long memberId,
+            @PathVariable RoutineCate routineCate) {
 
         return ApiResponse.success(
                 dailyService.getRankingList(memberId, routineCate));
@@ -93,10 +93,10 @@ public class DailyController {
             description = "루틴 상세 조회 페이지에서 " +
                     "달성률을 조회 합니다."
     )
-    @GetMapping("/rate/{routineId}")
+    @GetMapping("/rate/{memberId}/{routineId}")
     public ApiResponse<GetDailyRateResponse> getRate(
-            @RequestParam Long memberId,
-            @PathVariable("routineId") Long routineId) {
+            @PathVariable Long memberId,
+            @PathVariable Long routineId) {
 
         return ApiResponse.success(
                 dailyService.getRate(memberId, routineId));
@@ -106,11 +106,11 @@ public class DailyController {
             summary = "캘린더 조회 API",
             description = "캘린더를 카테고리별로 조회 합니다."
     )
-    @GetMapping("/calendar")
+    @GetMapping("/calendar/{memberId}/{month}/{routineCate}")
     public ApiResponse<List<GetCalendarResponse>> getCalendar(
-            @RequestParam Long memberId,
-            @RequestParam int month,
-            @RequestParam RoutineCate routineCate) {
+            @PathVariable Long memberId,
+            @PathVariable int month,
+            @PathVariable RoutineCate routineCate) {
 
         return ApiResponse.success(
                 dailyService.getCalendar(memberId, month, routineCate));
