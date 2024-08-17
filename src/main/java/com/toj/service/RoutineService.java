@@ -38,7 +38,7 @@ public class RoutineService {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException("잘못된 회원 정보 입니다."));
 
-        Routine routine = new Routine(findMember, request.getContent(), request.getCategories(), request.getStartDate(), request.getEndDate(), request.getAlarmTime(), request.getDays());
+        Routine routine = new Routine(findMember, request.getContent(), request.getCategories(), request.getStartDate(), request.getEndDate(), request.getAlarmTime(), request.getDaysOfWeek());
         routineRepository.save(routine);
         return routine.getId();
     }
@@ -55,21 +55,37 @@ public class RoutineService {
         List<Routine> routineList = routineRepository.findAllByMemberIdAndDate(memberId, selectedDate);
 
         List<GetAllRoutineResponse> result = new ArrayList<>();
-        for (Routine routine : routineList) {
+        for (int i = 0; i < routineList.size(); i++) {
+            Routine routine = routineList.get(i);
             Optional<Daily> daily = dailyRepository.findById(routine.getId());
             GetAllRoutineResponse response = new GetAllRoutineResponse();
+            if (daily.isPresent()) {
+                response.setRoutineStatus(daily.get().getDailyCate());
+            } else {
+                response.setRoutineStatus(DailyCate.NONE);
+            }
             response.setRoutineId(routine.getId());
             response.setRoutineCategories(routine.getRoutineCate());
             response.setRoutineContent(routine.getContent());
             response.setRoutineAlarmTime(routine.getAlarmTime());
-            response.setDays(routine.getDays());
-            if (daily.isPresent()) {
-                response.setRoutineStatus(daily.get().getDailyCate().toString());
-            } else {
-                response.setRoutineStatus("NONE");
-            }
+            response.setDaysOfWeek(routine.getDaysOfWeek());
             result.add(response);
         }
+//        for (Routine routine : routineList) {
+//            Optional<Daily> daily = dailyRepository.findById(routine.getId());
+//            GetAllRoutineResponse response = new GetAllRoutineResponse();
+//            response.setRoutineId(routine.getId());
+//            response.setRoutineCategories(routine.getRoutineCate());
+//            response.setRoutineContent(routine.getContent());
+//            response.setRoutineAlarmTime(routine.getAlarmTime());
+//            response.setDaysOfWeek(routine.getDaysOfWeek());
+//            if (daily.isPresent()) {
+//                response.setRoutineStatus(daily.get().getDailyCate().toString());
+//            } else {
+//                response.setRoutineStatus("NONE");
+//            }
+//            result.add(response);
+//        }
 
         return result;
     }
@@ -111,7 +127,7 @@ public class RoutineService {
         return new EditRoutineResponse(routineId, routine.getRoutineCate(), routine.getContent());
     }
 
-    public RemoveRoutineResponse deleteByRoutine(Long routineId) {
+    public RemoveRoutineResponse deleteByRoutineId(Long routineId) {
         routineRepository.deleteById(routineId);
 
         return new RemoveRoutineResponse(routineId);

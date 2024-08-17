@@ -10,7 +10,6 @@ import java.util.List;
 public interface RoutineRepository extends JpaRepository<Routine, Long> {
 
     List<Routine> findAllByMemberId(Long memberId);
-
-    @Query("select * from routine where memberId := memberId and := selectedDate between start_date and end_date")
+    @Query(value = "select * from routine where member_id = :memberId and :selectedDate between start_date and end_date", nativeQuery = true)
     List<Routine> findAllByMemberIdAndDate(Long memberId, LocalDate selectedDate);
 }

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,19 +32,19 @@ public class Routine {
     private LocalDate endDate;
 
     private String alarmTime;
-    private String days;
+    private String daysOfWeek;
 
     @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL)
     private List<Daily> dailyList = new ArrayList<>();
 
-    public Routine(Member member, String content, String categories, LocalDate startDate, LocalDate endDate, String alarmTime, String days) {
+    public Routine(Member member, String content, String categories, LocalDate startDate, LocalDate endDate, String alarmTime, String daysOfWeek) {
         this.member = member;
         this.content = content;
         this.routineCate = RoutineCate.valueOf(categories);
         this.startDate = startDate;
         this.endDate = endDate;
         this.alarmTime = alarmTime;
-        this.days = days;
+        this.daysOfWeek = daysOfWeek;
     }
 
     public Long update(String content) {

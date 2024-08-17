@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum DailyCate {
 
+    NONE("루틴실행전", 0),
     SUCCESS("시작할게요", 10),
     DELAY("잠시 미룰게요", 10),
     FAIL("오늘은 어려워요", 3);

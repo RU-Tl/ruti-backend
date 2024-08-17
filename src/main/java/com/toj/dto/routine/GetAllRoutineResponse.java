@@ -1,5 +1,6 @@
 package com.toj.dto.routine;
 
+import com.toj.entity.DailyCate;
 import com.toj.entity.RoutineCate;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ public class GetAllRoutineResponse {
     @Schema(description = "루틴 알림시간", example = "AM 7:20")
     private String routineAlarmTime;
     @Schema(description = "루틴 상태", example = "NONE")
-    private String routineStatus;
+    private DailyCate routineStatus;
     @Schema(description =  "루틴 요일", example = "MON, WED, FRI")
-    private String days;
+    private String daysOfWeek;
 }

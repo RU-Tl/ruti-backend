@@ -4,7 +4,6 @@ import com.toj.dto.daily.EditRoutineRequest;
 import com.toj.dto.daily.EditRoutineResponse;
 import com.toj.dto.routine.*;
 import com.toj.global.model.ApiResponse;
-import com.toj.service.MemberService;
 import com.toj.service.RoutineService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,7 +41,7 @@ public class RoutineController {
 
     @DeleteMapping("/{routineId}")
     public ApiResponse<RemoveRoutineResponse> deleteRoute(@PathVariable Long routineId) {
-        return ApiResponse.success(routineService.deleteByRoutine(routineId));
+        return ApiResponse.success(routineService.deleteByRoutineId(routineId));
     }
 
     @Operation(
