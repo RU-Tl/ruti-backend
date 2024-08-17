@@ -74,6 +74,7 @@ public class RoutineService {
         return result;
     }
 
+    // dd
     public Long createDaily(CreateDailyRequest request, Long routineId) {
         Routine routine = routineRepository.findById(routineId)
                 .orElseThrow(() -> new IllegalStateException("저장된 루틴 정보가 없음."));
