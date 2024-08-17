@@ -22,9 +22,10 @@ public class DailyController {
 
     @Operation(
             summary = "루틴(일상) 상세조회 API",
-            description = "홈 화면에서 루틴 상세 조회를 합니다. \n\n" +
-                    "개별 루틴 상세 최근 7일 내역이 조회가됩니다.\n\n" +
-                    "날짜별 성공,실패 여부와 스코어가 조회됩니다."
+            description = """
+                    홈 화면에서 루틴 상세 조회를 합니다.\s
+                    개별 루틴 상세 최근 7일 내역이 조회가됩니다.
+                    날짜별 성공,실패 여부와 스코어가 조회됩니다."""
     )
     @GetMapping("/{memberId}/{routineId}")
     public ApiResponse <List<GetDetailDailyResponse>> getDetailDaily(

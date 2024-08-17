@@ -3,7 +3,6 @@ package com.toj.controller;
 import com.toj.dto.daily.EditRoutineRequest;
 import com.toj.dto.daily.EditRoutineResponse;
 import com.toj.dto.routine.*;
-import com.toj.entity.Member;
 import com.toj.global.model.ApiResponse;
 import com.toj.service.MemberService;
 import com.toj.service.RoutineService;
@@ -21,7 +20,6 @@ import java.util.List;
 @Tag(name = "routine", description = "루틴 관련 API")
 public class RoutineController {
 
-    private final MemberService memberService;
     private final RoutineService routineService;
 
     @Operation(
@@ -40,6 +38,11 @@ public class RoutineController {
     @GetMapping("/{memberId}/{selectedDate}")
     public ApiResponse<List<GetAllRoutineResponse>> getAllRoutine(@PathVariable Long memberId, @PathVariable LocalDate selectedDate) {
         return ApiResponse.success(routineService.findAllByMemberId(memberId, selectedDate));
+    }
+
+    @DeleteMapping("/{routineId}")
+    public ApiResponse<RemoveRoutineResponse> deleteRoute(@PathVariable Long routineId) {
+        return ApiResponse.success(routineService.deleteByRoutine(routineId));
     }
 
     @Operation(

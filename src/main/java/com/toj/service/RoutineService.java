@@ -5,6 +5,7 @@ import com.toj.dto.daily.EditRoutineResponse;
 import com.toj.dto.routine.CreateDailyRequest;
 import com.toj.dto.routine.CreateRoutineRequest;
 import com.toj.dto.routine.GetAllRoutineResponse;
+import com.toj.dto.routine.RemoveRoutineResponse;
 import com.toj.entity.*;
 import com.toj.exception.NotFoundException;
 import com.toj.repository.MemberRepository;
@@ -37,7 +38,7 @@ public class RoutineService {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException("잘못된 회원 정보 입니다."));
 
-        Routine routine = new Routine(findMember, request.getContent(), request.getCategories(), request.getStartDate(), request.getEndDate(), request.getAlarmTime());
+        Routine routine = new Routine(findMember, request.getContent(), request.getCategories(), request.getStartDate(), request.getEndDate(), request.getAlarmTime(), request.getDays());
         routineRepository.save(routine);
         return routine.getId();
     }
@@ -47,17 +48,11 @@ public class RoutineService {
                 .filter(routine -> routine.getEndDate().isAfter(LocalDate.now())) // 현재 진행 중인 루틴인 경우만 참.
                 .toList();
 
-        if (routineList.size() >= routineMax)
-           return false;
-
-        return true;
+        return routineList.size() < routineMax;
     }
 
     public List<GetAllRoutineResponse> findAllByMemberId(Long memberId, LocalDate selectedDate) {
-        List<Routine> routineList = routineRepository.findAllByMemberId(memberId).stream()
-                .filter(routine -> selectedDate.isAfter(routine.getStartDate()) || selectedDate.isEqual(routine.getStartDate()))
-                .filter(routine -> selectedDate.isBefore(routine.getEndDate()) || selectedDate.isEqual(routine.getEndDate()))
-                .toList();
+        List<Routine> routineList = routineRepository.findAllByMemberIdAndDate(memberId, selectedDate);
 
         List<GetAllRoutineResponse> result = new ArrayList<>();
         for (Routine routine : routineList) {
@@ -67,6 +62,7 @@ public class RoutineService {
             response.setRoutineCategories(routine.getRoutineCate());
             response.setRoutineContent(routine.getContent());
             response.setRoutineAlarmTime(routine.getAlarmTime());
+            response.setDays(routine.getDays());
             if (daily.isPresent()) {
                 response.setRoutineStatus(daily.get().getDailyCate().toString());
             } else {
@@ -113,5 +109,11 @@ public class RoutineService {
         routine.update(request.getContent());
 
         return new EditRoutineResponse(routineId, routine.getRoutineCate(), routine.getContent());
+    }
+
+    public RemoveRoutineResponse deleteByRoutine(Long routineId) {
+        routineRepository.deleteById(routineId);
+
+        return new RemoveRoutineResponse(routineId);
     }
 }

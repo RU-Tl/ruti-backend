@@ -20,4 +20,6 @@ public class CreateRoutineRequest {
     private LocalDate endDate;
     @Schema(description = "루틴 알림시간", example = "AM 7:20")
     private String alarmTime;
+    @Schema(description = "루틴 요일", example = "MON,TUE,WED")
+    private String days;
 }

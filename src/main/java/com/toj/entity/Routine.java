@@ -33,17 +33,19 @@ public class Routine {
     private LocalDate endDate;
 
     private String alarmTime;
+    private String days;
 
     @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL)
     private List<Daily> dailyList = new ArrayList<>();
 
-    public Routine(Member member, String content, String categories, LocalDate startDate, LocalDate endDate, String alarmTime) {
+    public Routine(Member member, String content, String categories, LocalDate startDate, LocalDate endDate, String alarmTime, String days) {
         this.member = member;
         this.content = content;
         this.routineCate = RoutineCate.valueOf(categories);
         this.startDate = startDate;
         this.endDate = endDate;
         this.alarmTime = alarmTime;
+        this.days = days;
     }
 
     public Long update(String content) {

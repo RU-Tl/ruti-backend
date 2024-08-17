@@ -20,4 +20,6 @@ public class GetAllRoutineResponse {
     private String routineAlarmTime;
     @Schema(description = "루틴 상태", example = "NONE")
     private String routineStatus;
+    @Schema(description =  "루틴 요일", example = "MON, WED, FRI")
+    private String days;
 }
